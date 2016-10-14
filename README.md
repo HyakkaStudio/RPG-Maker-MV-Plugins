@@ -8,6 +8,7 @@ Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
 
 ## How to build?
 ### With `Cakefile`
+#### Requirement
   1. [Nodejs](https://nodejs.org/en/) (`npm` is included)
   2. [CoffeeScript](http://coffeescript.org/) (`cake` is included)
 
