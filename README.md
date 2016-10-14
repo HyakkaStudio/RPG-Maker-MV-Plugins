@@ -3,8 +3,8 @@ Some open source plugins for RPG Maker MV. Written in CoffeeScript.
 Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
 
 ## Released plugins
-  * Battery System
-  * Note System
+  * [Battery System](/src/HRM_BatterySystem.coffee)
+  * [Note System](/src/HRM_NoteSystem.coffee)
 
 ## How to build?
 ### With `Cakefile`
@@ -30,4 +30,4 @@ Or you can run `cake build -o /path/to/target/location build` to output in the t
     2. Released "Note System" v0.1
 
 ## Known bugs
-  * Cannot be loaded after the "Orange - Time System" By [Hudell](www.hudell.com) (Error will cause)
+  * Cannot be loaded after the "Orange - Time System" By [Hudell](http://www.hudell.com) (Error will cause)
