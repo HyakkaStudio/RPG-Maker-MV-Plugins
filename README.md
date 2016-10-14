@@ -24,8 +24,8 @@ Or you can run `cake build -o /path/to/target/location build` to output in the t
 
 ## Release notes
   * 2016-10-14 First release
-    i. Released "Battery System" v0.1
-    ii. Released "Note System" v0.1
+    1. Released "Battery System" v0.1
+    2. Released "Note System" v0.1
 
 ## Known bugs
   * Cannot be loaded after the "Orange - Time System" By [Hudell](www.hudell.com) (Error will cause)
