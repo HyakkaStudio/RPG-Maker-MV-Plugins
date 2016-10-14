@@ -5,7 +5,7 @@
  # HRM_BatterySystem.js
  # Version: 0.1
  # Released under MIT
- # Keep this section when you're using this plugin without any editting
+ # Keep this section when you're using this plugin without any editing
  # =============================================================================
 ###
 
