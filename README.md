@@ -18,7 +18,7 @@ Then you will get a auto-generated folder call `dist` and this is the place of t
 
 Or you can run `cake build -o /path/to/target/location build` to output in the target location.
 
-### With online compiler (Not Recommnad)
+### With online compiler (Not Recommand)
   1. Download all the source code
   2. Go to the online compiler website (e.g [JS2Coffee](http://js2.coffee))
   3. Paste the source code and compile in `bare` mode
