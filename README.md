@@ -26,8 +26,8 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
 
 ## Release notes
   * 2017-01-21 Bug fixed
-    i. Fixed window location error of "Note System"
-    ii. Fixed the "New line" error of "Note System"
+    1. Fixed window location error of "Note System"
+    2. Fixed the "New line" error of "Note System"
 
   * 2016-10-14 First release
     1. Released "Battery System" v0.1
