@@ -3,8 +3,8 @@ Some open source plugins for RPG Maker MV. Written in CoffeeScript.
 Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
 
 ## Released plugins
-  * Battery System
-  * Note System
+  * [Battery System](/src/HRM_BatterySystem.coffee)
+  * [Note System](/src/HRM_NoteSystem.coffee)
 
 ## How to build?
 ### With `Cakefile`
@@ -13,10 +13,12 @@ Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
   2. [CoffeeScript](http://coffeescript.org/) (`cake` is included)
 
 Just simply run the `cake build` command on the repo root.
+
 Then you will get a auto-generated folder call `dist` and this is the place of the Javascript files living in~
+
 Or you can run `cake -o /path/to/target/location build` to output in the target location.
 
-### With online compiler (Not Recommnad)
+### With online compiler (Not Recommand)
   1. Download all the source code
   2. Go to the online compiler website (e.g [JS2Coffee](http://js2.coffee))
   3. Paste the source code and compile in `bare` mode
@@ -28,8 +30,8 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
     ii. Fixed the "New line" error of "Note System"
 
   * 2016-10-14 First release
-    i. Released "Battery System" v0.1
-    ii. Released "Note System" v0.1
+    1. Released "Battery System" v0.1
+    2. Released "Note System" v0.1
 
 ## Known bugs
-  * Cannot be loaded after the "Orange - Time System" By [Hudell](www.hudell.com) (Error will cause)
+  * Cannot be loaded after the "Orange - Time System" By [Hudell](http://www.hudell.com) (Error will cause)
