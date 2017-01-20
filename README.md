@@ -14,7 +14,7 @@ Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
 
 Just simply run the `cake build` command on the repo root.
 Then you will get a auto-generated folder call `dist` and this is the place of the Javascript files living in~
-Or you can run `cake build -o /path/to/target/location build` to output in the target location.
+Or you can run `cake -o /path/to/target/location build` to output in the target location.
 
 ### With online compiler (Not Recommnad)
   1. Download all the source code
@@ -23,6 +23,10 @@ Or you can run `cake build -o /path/to/target/location build` to output in the t
   4. Copy the compiled code to a new Javascript file in THE SAME NAME.
 
 ## Release notes
+  * 2017-01-21 Bug fixed
+    i. Fixed window location error of "Note System"
+    ii. Fixed the "New line" error of "Note System"
+
   * 2016-10-14 First release
     i. Released "Battery System" v0.1
     ii. Released "Note System" v0.1

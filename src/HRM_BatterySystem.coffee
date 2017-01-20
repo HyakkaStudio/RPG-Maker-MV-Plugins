@@ -10,7 +10,7 @@
 ###
 
 ###:
- # @plugindesc A simple plugin that allow you to add some control on player movement, or the player action.
+ # @plugindesc A simple plugin that allow you to add some limitation on player movement, or the player action.
  # @author Geoffrey Chueng [Hyakka Studio]
  #
  # @param Icon ID
@@ -108,7 +108,7 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   # Create the battery window on map scene
   ###
   Scene_Map::createBatteryWindow = ->
-    @_windowBattery = new Window_Battery(0, 0)
+    @_windowBattery = new WindowBattery(0, 0)
     @addWindow @_windowBattery
     return
 
@@ -129,7 +129,7 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   ###
   # The window class that show the battery counter
   ###
-  class Window_Battery extends Window_Base
+  class WindowBattery extends Window_Base
 
     constructor: (x, y) ->
       @initialize x, y

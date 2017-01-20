@@ -3,7 +3,7 @@
  # Note System by Hyakka Studio
  # By Geoffrey Chueng <kahogeoff@gmail.com> [Hyakka Studio]
  # HRM_NoteSystem.js
- # Version: 0.1
+ # Version: 0.1.1
  # Released under MIT
  # Keep this section when you're using this plugin without any editing
  # =============================================================================
@@ -35,6 +35,10 @@
  #    => Open the notebook window
  # 2. Notebook add <title> <content>
  #    => Add a note to notebook
+ #
+ # Functions:
+ # 1. EnterNoteScene()                => Enter the notebook scene
+ # 2. AddNote(title, content)         => Add note to notebook (For mulitple lines content)
  #
 ###
 
@@ -77,7 +81,7 @@ $gameNotes = []
   ###
   # The scene class of the notebook
   ###
-  class Scene_Notes extends Scene_MenuBase
+  class SceneNotes extends Scene_MenuBase
 
     constructor: ->
       @initialize()
@@ -91,8 +95,8 @@ $gameNotes = []
       Scene_MenuBase::start.call this
       @_windowNoteList.x = (
         Graphics.boxWidth
-        - @_windowNoteDetail.width
-        - @_windowNoteList.width) / 2
+        - (@_windowNoteDetail.width
+        - @_windowNoteList.width)) / 2
       @_windowNoteDetail.x = @_windowNoteList.x + @_windowNoteList.width
       return
 
@@ -107,14 +111,14 @@ $gameNotes = []
       return
 
     createNoteListWindow: ->
-      @_windowNoteList = new Window_NoteList()
+      @_windowNoteList = new WindowNoteList()
       @_windowNoteList.setHandler 'noteDetail', @showNoteDetail.bind(this)
       @_windowNoteList.setHandler 'cancel', @popScene.bind(this)
       @addWindow @_windowNoteList
       return
 
     createNoteDetailWindow: ->
-      @_windowNoteDetail = new Window_NoteDetail()
+      @_windowNoteDetail = new WindowNoteDetail()
       @_windowNoteDetail.setHandler 'cancel', @deactivateNoteDetail.bind(this)
       @addWindow @_windowNoteDetail
       return
@@ -135,7 +139,7 @@ $gameNotes = []
   ###
   # The window class for the note list
   ###
-  class Window_NoteList extends Window_Command
+  class WindowNoteList extends Window_Command
     _lastIndex: 0
 
     constructor: ->
@@ -174,7 +178,7 @@ $gameNotes = []
   ###
   # The window class for the detail of note
   ###
-  class Window_NoteDetail extends Window_Base
+  class WindowNoteDetail extends Window_Base
     _displayText: ''
     _handlers: {}
     _textState: {lines: 0, text: ''}
@@ -201,6 +205,7 @@ $gameNotes = []
 
     updatePlacement: ->
       @x = (Graphics.boxWidth - @width) / 2
+      console.log @x
       @y = (Graphics.boxHeight - @height) / 2
       return
 
@@ -214,6 +219,11 @@ $gameNotes = []
           tmp_line += '\n'
           @_textState['text'] += tmp_line
           tmp_line = c
+          @_textState['lines'] += 1
+        else if c == '\n'
+          tmp_line += '\n'
+          @_textState['text'] += tmp_line
+          tmp_line = ""
           @_textState['lines'] += 1
         else
           tmp_line += c
@@ -276,7 +286,7 @@ $gameNotes = []
       return
 
   EnterScene = ->
-    SceneManager.push Scene_Notes
+    SceneManager.push SceneNotes
     return
 
   AddNote = (title, content) ->
