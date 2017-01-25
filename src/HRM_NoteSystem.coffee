@@ -3,7 +3,7 @@
  # Note System by Hyakka Studio
  # By Geoffrey Chueng <kahogeoff@gmail.com> [Hyakka Studio]
  # HRM_NoteSystem.js
- # Version: 0.1.1
+ # Version: 0.2
  # Released under MIT
  # Keep this section when you're using this plugin without any editing
  # =============================================================================
@@ -25,10 +25,17 @@
  # @desc Width of the note Detail panel
  # @default 320
  #
+ # @param Font size
+ # @desc Size of the font
+ # @default 36
+ #
  # @help
  # ----- Note System by Hyakka Studio -----
  #
- # REMINDER: This plugin support some short note ONLY.
+ # REMINDER: This plugin support some note ONLY.
+ #
+ # How to switch the pages:
+ # By default you can switch the pages by 'Page Down(W)' and 'Page Up(Q)' key.
  #
  # Plugin command:
  # 1. Notebook open
@@ -59,6 +66,7 @@ $gameNotes = []
 
   _listWidth = Number _parameters['List width'] or 240
   _detailWidth = Number _parameters['Detail width'] or 320
+  _fontSize = Number _parameters['Font size'] or 36
 
   ###
   # Create the plugin command
@@ -119,6 +127,8 @@ $gameNotes = []
 
     createNoteDetailWindow: ->
       @_windowNoteDetail = new WindowNoteDetail()
+      @_windowNoteDetail.setHandler 'pagedown', @nextPageOfNote.bind(this)
+      @_windowNoteDetail.setHandler 'pageup', @previousPageOfNote.bind(this)
       @_windowNoteDetail.setHandler 'cancel', @deactivateNoteDetail.bind(this)
       @addWindow @_windowNoteDetail
       return
@@ -132,8 +142,16 @@ $gameNotes = []
 
     deactivateNoteDetail: ->
       @_windowNoteDetail.setDisplayText('')
-      @_windowNoteDetail.refresh()
+      @_windowNoteDetail.contents.clear()
       @_windowNoteList.activate()
+      return
+
+    nextPageOfNote: ->
+      @_windowNoteDetail.processPagedown()
+      return
+
+    previousPageOfNote: ->
+      @_windowNoteDetail.processPageup()
       return
 
   ###
@@ -181,7 +199,8 @@ $gameNotes = []
   class WindowNoteDetail extends Window_Base
     _displayText: ''
     _handlers: {}
-    _textState: {lines: 0, text: ''}
+    _currentPage: 0
+    _textState: {totalPages: 0, content: []}
     # _canScroll: false
 
     constructor: ->
@@ -191,7 +210,7 @@ $gameNotes = []
     initialize: ->
       Window_Base::initialize.call this, 0, 0, @windowWidth(), @windowHeight()
       @updatePlacement()
-      @refresh() if $gameNotes.length > 0
+      @refresh() if $gameNotes.length > 0 and @_textState['content'].length > 0
       # @downArrowVisible = true
       @openness = 0
       @open()
@@ -211,24 +230,44 @@ $gameNotes = []
 
     setDisplayText: (text) ->
       # @_displayText = text
-      @_textState['text'] = ''
-      @_textState['lines'] = 1
+      @_textState['content'] = []
+      @_textState['totalPages'] = 0
       tmp_line = ''
-      for c in text.split('')
-        if @textWidth(tmp_line + c) > @contentsWidth()
-          tmp_line += '\n'
-          @_textState['text'] += tmp_line
-          tmp_line = c
-          @_textState['lines'] += 1
-        else if c == '\n'
-          tmp_line += '\n'
-          @_textState['text'] += tmp_line
-          tmp_line = ""
-          @_textState['lines'] += 1
-        else
-          tmp_line += c
+      tmp_page = {lines: 0, text: ''}
+      font_height = _fontSize
 
-      @_textState['text'] += tmp_line
+      for c in text.split('')
+        tmp_line += c
+        if c == '\n'
+          if (tmp_page['lines']+1) * font_height > @contentsHeight()
+            @_textState['content'].push tmp_page
+            @_textState['totalPages'] += 1
+
+            tmp_page = {lines: 0, text: ''}
+            tmp_page['lines'] += 1
+          else
+            tmp_page['text'] += tmp_line
+            tmp_page['lines'] += 1
+          tmp_line = ''
+        else if @textWidth(tmp_line) > @contentsWidth()
+          tmp_line = tmp_line.slice(0, -1) + '\n'
+          if (tmp_page['lines']+1) * font_height > @contentsHeight()
+            @_textState['content'].push tmp_page
+            @_textState['totalPages'] += 1
+
+            tmp_page = {lines: 0, text: ''}
+            tmp_page['text'] += tmp_line
+            tmp_page['lines'] += 1
+          else
+            tmp_page['text'] += tmp_line
+            tmp_page['lines'] += 1
+          tmp_line = ''
+
+      tmp_page['text'] += tmp_line
+      tmp_page['lines'] += 1
+      @_textState['content'].push tmp_page
+      @_textState['totalPages'] += 1
+
       return
 
     displayText: (text) ->
@@ -237,7 +276,12 @@ $gameNotes = []
 
     refresh: ->
       @contents.clear()
-      @displayText @_textState['text']
+      if @_textState['totalPages'] > 1
+        @downArrowVisible = @_currentPage < @_textState['totalPages'] - 1
+        @upArrowVisible = @_currentPage > 0
+
+      _tmpData = @_textState['content']
+      @displayText _tmpData[@_currentPage]['text']
       return
 
     update: ->
@@ -252,10 +296,10 @@ $gameNotes = []
       if @isOpenAndActive()
         if @isHandled('cancel') and Input.isTriggered('cancel')
           @processCancel()
-        # else if @isHandled('pagedown') and Input.isTriggered('pagedown')
-        #   @processPagedown()
-        # else if @isHandled('pageup') and Input.isTriggered('pageup')
-        #   @processPageup()
+        else if @isHandled('pagedown') and Input.isTriggered('pagedown')
+          @processPagedown()
+        else if @isHandled('pageup') and Input.isTriggered('pageup')
+          @processPageup()
       return
 
     processCancel: ->
@@ -263,6 +307,24 @@ $gameNotes = []
       @updateInputData()
       @deactivate()
       @callHandler('cancel')
+      return
+
+    processPagedown: ->
+      if @_currentPage + 1 < @_textState['totalPages']
+        SoundManager.playCursor()
+        @_currentPage += 1
+        @refresh()
+      else
+        SoundManager.playBuzzer()
+      return
+
+    processPageup: ->
+      if @_currentPage - 1 > -1
+        SoundManager.playCancel()
+        @_currentPage -= 1
+        @refresh()
+      else
+        SoundManager.playBuzzer()
       return
 
     updateInputData: ->

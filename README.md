@@ -25,6 +25,9 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
   4. Copy the compiled code to a new Javascript file in THE SAME NAME.
 
 ## Release notes
+  * 2017-01-26 Bug fixed
+    1. Added the multi-pages support for "Note System"
+
   * 2017-01-21 Bug fixed
     1. Fixed window location error of "Note System"
     2. Fixed the "New line" error of "Note System"
