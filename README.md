@@ -2,6 +2,8 @@
 Some open source plugins for RPG Maker MV. Written in CoffeeScript.
 Pre-builded version are not aviliable now. ('Cause I don't have time~ :p)
 
+You may also ask for a requirement of plugin in "Issues" section.
+
 ## Released plugins
   * [Battery System](/src/HRM_BatterySystem.coffee)
   * [Note System](/src/HRM_NoteSystem.coffee)
