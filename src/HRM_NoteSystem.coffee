@@ -201,7 +201,6 @@ $gameNotes = []
     _handlers: {}
     _currentPage: 0
     _textState: {totalPages: 0, content: []}
-    # _canScroll: false
 
     constructor: ->
       @initialize()

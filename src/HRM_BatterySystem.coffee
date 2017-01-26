@@ -68,6 +68,32 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   _willDrainBattery = true
 
   ###
+  # Create the plugin command
+  ###
+  _Game_Interpreter_pluginCommand = Game_Interpreter::pluginCommand
+  Game_Interpreter::pluginCommand = (command, args) ->
+    _Game_Interpreter_pluginCommand.call this
+    if command == "Battery"
+      switch args[0]
+        when 'drain'
+          _value = Number args[1]
+          DrainBattery _value
+          break
+        when 'recharge'
+          _value = Number args[1]
+          RechargeBattery _value
+          break
+        when 'start'
+          StartDrainBattery()
+          break
+        when 'stop'
+          StopDrainBattery()
+          break
+        else
+          break
+    return
+
+  ###
   # Handle the map scene enter event
   ###
   _Scene_Map_start = Scene_Map::start
@@ -186,32 +212,6 @@ HRM.BatterySystem = HRM.BatterySystem or {}
       @fittingHeight 1
 
   ###
-  # Create the plugin command
-  ###
-  _Game_Interpreter_pluginCommand = Game_Interpreter::pluginCommand
-  Game_Interpreter::pluginCommand = (command, args) ->
-    _Game_Interpreter_pluginCommand.call this
-    if command == "Battery"
-      switch args[0]
-        when "drain"
-          _value = Number args[1]
-          DrainBattery _value
-          break
-        when "recharge"
-          _value = Number args[1]
-          RechargeBattery _value
-          break
-        when "start"
-          StartDrainBattery()
-          break
-        when "stop"
-          StopDrainBattery()
-          break
-        else
-          break
-    return
-
-  ###
   # Define the public function
   ###
   DrainBattery = (value) ->
@@ -244,16 +244,16 @@ HRM.BatterySystem = HRM.BatterySystem or {}
     _willDrainBattery = false
     return
 
-  'use strict'
-
   ###
   # Output the public function
   ###
+  'use strict'
   $.DrainBattery = DrainBattery
   $.RechargeBattery = RechargeBattery
   $.GetCurrentBattery = GetCurrentBattery
   $.GetCurrentBatteryInPercent = GetCurrentBatteryInPercent
   $.StartDrainBattery = StartDrainBattery
   $.StopDrainBattery = StopDrainBattery
+
   return
 ) HRM.BatterySystem
