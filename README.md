@@ -7,6 +7,7 @@ You may also ask for a requirement of plugin in "Issues" section.
 ## Released plugins
 * [Battery System](/src/HRM_BatterySystem.coffee)
 * [Note System](/src/HRM_NoteSystem.coffee)
+* [Core System](/src/HRM_Core.coffee)
 
 ## How to build?
 ### With `Cakefile`
@@ -27,6 +28,10 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
                  2. Copy the compiled code to a new Javascript file in THE SAME NAME.
 
 ## Release notes
+* 2017-02-0 New script and Bug fixed
+  1. Released "Core System" v0.1
+  2. Fixed the plugin command bug of "Battery System" and "Note System"
+
 * 2017-01-27 Bug fixed
   1. Fixed the plugin command bug of "Battery System"
 

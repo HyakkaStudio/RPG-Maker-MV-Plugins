@@ -5,7 +5,7 @@
  # HRM_BatterySystem.js
  # Version: 0.1
  # Released under MIT
- # Keep this section when you're using this plugin without any editing
+ # Keep this section when you are using this plugin without any editing
  # =============================================================================
 ###
 
@@ -31,7 +31,7 @@
  #
  # @help
  # ----- Battery System by Hyakka Studio -----
- # Plugin command:
+ # Plugin command (Available with "Core" script):
  # 1. Battery drain <number>    => Drain player battery in <number> value
  # 2. Battery recharge <number> => Recharge player battery in <number> value
  # 3. Battery start             => Start draining player battery
@@ -66,32 +66,6 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   _ePerDash = _ePerStep * _dashAdd
 
   _willDrainBattery = true
-
-  ###
-  # Create the plugin command
-  ###
-  _Game_Interpreter_pluginCommand = Game_Interpreter::pluginCommand
-  Game_Interpreter::pluginCommand = (command, args) ->
-    _Game_Interpreter_pluginCommand.call this
-    if command == "Battery"
-      switch args[0]
-        when 'drain'
-          _value = Number args[1]
-          DrainBattery _value
-          break
-        when 'recharge'
-          _value = Number args[1]
-          RechargeBattery _value
-          break
-        when 'start'
-          StartDrainBattery()
-          break
-        when 'stop'
-          StopDrainBattery()
-          break
-        else
-          break
-    return
 
   ###
   # Handle the map scene enter event

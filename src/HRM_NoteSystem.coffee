@@ -5,7 +5,7 @@
  # HRM_NoteSystem.js
  # Version: 0.2
  # Released under MIT
- # Keep this section when you're using this plugin without any editing
+ # Keep this section when you are using this plugin without any editing
  # =============================================================================
 ###
 
@@ -37,7 +37,7 @@
  # How to switch the pages:
  # By default you can switch the pages by 'Page Down(W)' and 'Page Up(Q)' key.
  #
- # Plugin command:
+ # Plugin command (Available with "Core" script):
  # 1. Notebook open
  #    => Open the notebook window
  # 2. Notebook add <title> <content>
@@ -55,7 +55,7 @@ Imported['HRM_NoteSystem'] = true
 HRM = HRM or {}
 HRM.NoteSystem = HRM.NoteSystem or {}
 
-$gameNotes = []
+$dataNotes = []
 (($) ->
   ###
   # Initialize all private variable
@@ -67,24 +67,6 @@ $gameNotes = []
   _listWidth = Number _parameters['List width'] or 240
   _detailWidth = Number _parameters['Detail width'] or 320
   _fontSize = Number _parameters['Font size'] or 36
-
-  ###
-  # Create the plugin command
-  ###
-  _Game_Interpreter_pluginCommand = Game_Interpreter::pluginCommand
-  Game_Interpreter::pluginCommand = (command, args) ->
-    _Game_Interpreter_pluginCommand.call this
-    if command == "Notebook"
-      switch args[0]
-        when 'open'
-          EnterScene()
-          break
-        when 'add'
-          AddNote args[1], args[2]
-          break
-        else
-          break
-    return
 
   ###
   # The scene class of the notebook
@@ -135,7 +117,7 @@ $gameNotes = []
 
     showNoteDetail: ->
       currentId = @_windowNoteList._lastIndex
-      @_windowNoteDetail.setDisplayText($gameNotes[currentId].content)
+      @_windowNoteDetail.setDisplayText($dataNotes[currentId].content)
       @_windowNoteDetail.refresh()
       @_windowNoteDetail.activate()
       return
@@ -184,7 +166,7 @@ $gameNotes = []
       return
 
     makeCommandList: ->
-      for n in $gameNotes
+      for n in $dataNotes
         @addCommand n.title, 'noteDetail'
       return
 
@@ -209,7 +191,7 @@ $gameNotes = []
     initialize: ->
       Window_Base::initialize.call this, 0, 0, @windowWidth(), @windowHeight()
       @updatePlacement()
-      @refresh() if $gameNotes.length > 0 and @_textState['content'].length > 0
+      @refresh() if $dataNotes.length > 0 and @_textState['content'].length > 0
       # @downArrowVisible = true
       @openness = 0
       @open()
@@ -223,7 +205,6 @@ $gameNotes = []
 
     updatePlacement: ->
       @x = (Graphics.boxWidth - @width) / 2
-      console.log @x
       @y = (Graphics.boxHeight - @height) / 2
       return
 
@@ -354,7 +335,7 @@ $gameNotes = []
     _tmpNote = {}
     _tmpNote["title"] = String title
     _tmpNote["content"] = String content
-    $gameNotes.push _tmpNote
+    $dataNotes.push _tmpNote
     return
 
   'use strict'
