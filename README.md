@@ -6,8 +6,10 @@ You may also ask for a requirement of plugin in "Issues" section.
 
 ## Released plugins
 * [Battery System](/src/HRM_BatterySystem.coffee)
+  * [Auto recharge addon](/src/HRM_BS_AutoRecharge.coffee)
 * [Note System](/src/HRM_NoteSystem.coffee)
 * [Core System](/src/HRM_Core.coffee)
+* [Custom Key Input](/src/HRM_CustomKeyInput.coffee)
 
 ## How to build?
 ### With `Cakefile`
@@ -28,7 +30,11 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
                  2. Copy the compiled code to a new Javascript file in THE SAME NAME.
 
 ## Release notes
-* 2017-02-0 New script and Bug fixed
+* 2017-03-01 New scripts
+  1. Released "Auto recharge addon" v0.1
+  2. Released "Custom Key Input" v0.1
+
+* 2017-02-0? New script and Bug fixed
   1. Released "Core System" v0.1
   2. Fixed the plugin command bug of "Battery System" and "Note System"
 
