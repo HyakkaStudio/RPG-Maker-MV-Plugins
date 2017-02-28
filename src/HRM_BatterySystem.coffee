@@ -3,7 +3,7 @@
  # Battery System by Hyakka Studio
  # By Geoffrey Chueng <kahogeoff@gmail.com> [Hyakka Studio]
  # HRM_BatterySystem.js
- # Version: 0.1
+ # Version: 0.1.1
  # Released under MIT
  # Keep this section when you are using this plugin without any editing
  # =============================================================================
@@ -12,6 +12,10 @@
 ###:
  # @plugindesc A simple plugin that allow you to add some limitation on player movement, or the player action.
  # @author Geoffrey Chueng [Hyakka Studio]
+ #
+ # @param Show in percentage
+ # @desc Set the value display in percentage
+ # @default false
  #
  # @param Icon ID
  # @desc Set the icon ID
@@ -25,8 +29,8 @@
  # @desc The energy value that the player use to walk.
  # @default 1
  #
- # @param Dashing addition
- # @desc The addition value that the player use to dash.
+ # @param Dashing multiplier
+ # @desc The multiplier value that the player use to dash.
  # @default 2
  #
  # @help
@@ -62,10 +66,12 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   _currentBattery = _maxBattery
 
   _ePerStep = Number _parameters['Consumption per step'] or 1
-  _dashAdd = Number _parameters['Dashing addition'] or 2
+  _dashAdd = Number _parameters['Dashing multiplier'] or 2
   _ePerDash = _ePerStep * _dashAdd
 
   _willDrainBattery = true
+  _inPercentage = _parameters['Show in percentage'] == 'true'
+  _decPlace = 1
 
   ###
   # Handle the map scene enter event
@@ -118,12 +124,7 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   _Game_Player_executeMove = Game_Player::executeMove
   Game_Player::executeMove = (direction) ->
     @moveStraight direction
-    if !$gamePlayer.isStopping() and _willDrainBattery
-      if $gamePlayer.isDashing()
-        DrainBattery _ePerDash
-      else
-        DrainBattery _ePerStep
-
+    ExecuteMove()
     return
 
   ###
@@ -145,7 +146,12 @@ HRM.BatterySystem = HRM.BatterySystem or {}
     refresh: ->
       if @_value != _currentBattery # $gameParty.gold()
         @_value = _currentBattery # $gameParty.gold()
-        @_outputText = @_value + "/" + _maxBattery
+        if _inPercentage
+          @_outputText =
+            (GetCurrentBatteryInPercent() * 100).toFixed(_decPlace) + "%"
+        else
+          @_outputText = @_value + "/" + _maxBattery
+
         @contents.clear()
         @drawIcon _iconID, 0, 0
 
@@ -184,6 +190,14 @@ HRM.BatterySystem = HRM.BatterySystem or {}
 
     windowHeight: ->
       @fittingHeight 1
+
+  ExecuteMove = ->
+    if !$gamePlayer.isStopping() and _willDrainBattery
+      if $gamePlayer.isDashing()
+        DrainBattery _ePerDash
+      else
+        DrainBattery _ePerStep
+    return
 
   ###
   # Define the public function
@@ -228,6 +242,7 @@ HRM.BatterySystem = HRM.BatterySystem or {}
   $.GetCurrentBatteryInPercent = GetCurrentBatteryInPercent
   $.StartDrainBattery = StartDrainBattery
   $.StopDrainBattery = StopDrainBattery
+  $.ExecuteMove = ExecuteMove
 
   return
 ) HRM.BatterySystem
