@@ -15,7 +15,7 @@ You may also ask for a requirement of plugin in "Issues" section.
 ### With `Cakefile`
 #### Requirement
   1. [Nodejs](https://nodejs.org/en/) (`npm` is included)
-              1. [CoffeeScript](http://coffeescript.org/) (`cake` is included)
+  2. [CoffeeScript](http://coffeescript.org/) (`cake` is included)
 
 Just simply run the `cake build` command on the repo root.
 
@@ -25,9 +25,9 @@ Or you can run `cake -o /path/to/target/location build` to output in the target 
 
 ### With online compiler (Not Recommand)
   1. Download all the source code
-              1. Go to the online compiler website (e.g [JS2Coffee](http://js2.coffee))
-                 1. Paste the source code and compile in `bare` mode
-                 2. Copy the compiled code to a new Javascript file in THE SAME NAME.
+  2. Go to the online compiler website (e.g [JS2Coffee](http://js2.coffee))
+  3. Paste the source code and compile in `bare` mode
+  4. Copy the compiled code to a new Javascript file in THE SAME NAME.
 
 ## Release notes
 * 2017-03-01 New scripts
